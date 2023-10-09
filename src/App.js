@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import useNasaData from "./utils/useNasaData";
+import Card from "./componenets/Card";
+import Loading from "./componenets/Loading";
+
 
 function App() {
+  const nasaData = useNasaData()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    {nasaData.length === 0 ? <Loading/> :
+    <div className="my-16  flex flex-col gap-16">
+    {nasaData.map((data ) =>{
+      if(!data.hasOwnProperty("hdurl")){
+        return null
+      }
+ 
+      return ( <div key={data.date}>
+
+      <Card  heading={data.title}  content={data.explanation } date={data.date} image={data.url} copyright={data.copyright}  />
+     
+      </div>
+      )
+
+
+     } )}
+
+</div>}
+    </>
   );
 }
 
